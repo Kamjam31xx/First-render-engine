@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Textures">
+      <UniqueIdentifier>{43660a5c-9886-4768-abc6-3fa65e322519}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{bbda1bb7-c482-4c30-bceb-a78465a27868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Models">
+      <UniqueIdentifier>{cc4067f1-377d-454e-870e-24d8da3099b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Models\SimpleModel">
+      <UniqueIdentifier>{77f7b168-c560-4365-8cab-37fa005f9f9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Models\Ground">
+      <UniqueIdentifier>{32a7ad91-86be-4d4c-981c-65cd661ab52e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Models\Backdrop">
+      <UniqueIdentifier>{8dff9eb1-7a77-4cd7-a93f-73be05bcf702}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Models\Walls">
+      <UniqueIdentifier>{400f397c-4db0-4ca4-9ca9-3dde5ebb8ce9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imGUI">
+      <UniqueIdentifier>{3410bb54-3e7c-4eaa-8f75-880e868df215}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GL_Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OmniShadowMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libraries\imgui\imgui.cpp">
+      <Filter>imGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libraries\imgui\imgui_demo.cpp">
+      <Filter>imGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libraries\imgui\imgui_draw.cpp">
+      <Filter>imGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libraries\imgui\imgui_impl_glfw.cpp">
+      <Filter>imGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libraries\imgui\imgui_impl_opengl3.cpp">
+      <Filter>imGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libraries\imgui\imgui_widgets.cpp">
+      <Filter>imGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiFrameBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenQuad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GL_Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonValues.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OmniShadowMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libraries\imgui\imconfig.h">
+      <Filter>imGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libraries\imgui\imgui.h">
+      <Filter>imGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libraries\imgui\imgui_impl_glfw.h">
+      <Filter>imGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libraries\imgui\imgui_impl_opengl3.h">
+      <Filter>imGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libraries\imgui\imgui_internal.h">
+      <Filter>imGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libraries\imgui\imstb_rectpack.h">
+      <Filter>imGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libraries\imgui\imstb_textedit.h">
+      <Filter>imGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libraries\imgui\imstb_truetype.h">
+      <Filter>imGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiFrameBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KML.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenQuad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\shader.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\directional_shadow_map.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\omni_shadow_map.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\omni_shadow_map.geom">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\omni_shadow_map.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\directional_shadow_map.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\shader.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\outline.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\outline.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\skybox.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\skybox.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Models\SimpleModel\BASE.fbx">
+      <Filter>Source Files\Models\SimpleModel</Filter>
+    </None>
+    <None Include="Models\default.FLS">
+      <Filter>Source Files\Models</Filter>
+    </None>
+    <None Include="Models\Walls\BASE.fbx">
+      <Filter>Source Files\Models\Walls</Filter>
+    </None>
+    <None Include="Models\Ground\BASE.fbx">
+      <Filter>Source Files\Models\Ground</Filter>
+    </None>
+    <None Include="Models\Backdrop\BASE.fbx">
+      <Filter>Source Files\Models\Backdrop</Filter>
+    </None>
+    <None Include="..\libraries\imgui\.editorconfig">
+      <Filter>imGUI</Filter>
+    </None>
+    <None Include="Shaders\dualFramebuffershader.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\dualFramebuffershader.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\framebufferBlur.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\framebufferBlur.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\mainDeferredShader.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\mainDeferredShader.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\quadShaderDeferred.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\quadShaderDeferred.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\skyboxDeferred.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\skyboxDeferred.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\ssaoDeferred.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\ssaoDeferred.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Models\SimpleModel\BASE_COLOR.png">
+      <Filter>Source Files\Models\SimpleModel</Filter>
+    </Image>
+    <Image Include="Models\SimpleModel\BASE_HEIGHT.png">
+      <Filter>Source Files\Models\SimpleModel</Filter>
+    </Image>
+    <Image Include="Models\SimpleModel\BASE_NORMAL.png">
+      <Filter>Source Files\Models\SimpleModel</Filter>
+    </Image>
+    <Image Include="Models\SimpleModel\BASE_SPECULAR.png">
+      <Filter>Source Files\Models\SimpleModel</Filter>
+    </Image>
+    <Image Include="Models\Walls\BASE_COLOR.png">
+      <Filter>Source Files\Models\Walls</Filter>
+    </Image>
+    <Image Include="Models\Walls\BASE_HEIGHT.png">
+      <Filter>Source Files\Models\Walls</Filter>
+    </Image>
+    <Image Include="Models\Walls\BASE_NORMAL.png">
+      <Filter>Source Files\Models\Walls</Filter>
+    </Image>
+    <Image Include="Models\Walls\BASE_SPECULAR.png">
+      <Filter>Source Files\Models\Walls</Filter>
+    </Image>
+    <Image Include="Models\Ground\BASE_COLOR.png">
+      <Filter>Source Files\Models\Ground</Filter>
+    </Image>
+    <Image Include="Models\Ground\BASE_HEIGHT.png">
+      <Filter>Source Files\Models\Ground</Filter>
+    </Image>
+    <Image Include="Models\Ground\BASE_NORMAL.png">
+      <Filter>Source Files\Models\Ground</Filter>
+    </Image>
+    <Image Include="Models\Ground\BASE_SPECULAR.png">
+      <Filter>Source Files\Models\Ground</Filter>
+    </Image>
+    <Image Include="Models\Backdrop\BASE_COLOR.png">
+      <Filter>Source Files\Models\Backdrop</Filter>
+    </Image>
+    <Image Include="Models\Backdrop\BASE_HEIGHT.png">
+      <Filter>Source Files\Models\Backdrop</Filter>
+    </Image>
+    <Image Include="Models\Backdrop\BASE_NORMAL.png">
+      <Filter>Source Files\Models\Backdrop</Filter>
+    </Image>
+    <Image Include="Models\Backdrop\BASE_SPECULAR.png">
+      <Filter>Source Files\Models\Backdrop</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\libraries\imgui\LICENSE.txt">
+      <Filter>imGUI</Filter>
+    </Text>
+    <Text Include="..\libraries\imgui\README.txt">
+      <Filter>imGUI</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
