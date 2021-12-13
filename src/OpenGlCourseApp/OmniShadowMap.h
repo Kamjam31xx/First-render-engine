@@ -1,4 +1,5 @@
 #pragma once
+#include <glad/glad.h>
 #include "ShadowMap.h"
 class OmniShadowMap : public ShadowMap {
 public:

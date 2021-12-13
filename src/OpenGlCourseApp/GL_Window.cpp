@@ -66,10 +66,10 @@ int GL_Window::Initialize()
 	// handle key + mouse input
 	createCallbacks();
 	glfwSetInputMode(mainWindow, GLFW_CURSOR, GLFW_CURSOR); // enable/disable cursor
-	glewExperimental = GL_TRUE; // Allow modern extension features
+	// NOTE WORTHY ----> glewExperimental = GL_TRUE; // Allow modern extension features
 
 
-		if (glewInit() != GLEW_OK) { printf("GLEW initialization failure \n"); // initialize glew
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) { printf("GLAD initialization failure \n"); // initialize glew
 			glfwDestroyWindow(mainWindow);
 			glfwTerminate();
 		}

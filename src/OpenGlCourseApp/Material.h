@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include <glad/glad.h>
+
 #include "Texture.h" 
 
 // throw in vector of texture*

@@ -1,5 +1,6 @@
 
 #pragma once
+#include <glad/glad.h>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -158,7 +159,7 @@ private:
 	GLfloat gamma, 
 			heightPOM;
 
-	GLuint samplesPOM
+	GLuint samplesPOM;
 
 	// add checks for logic later
 

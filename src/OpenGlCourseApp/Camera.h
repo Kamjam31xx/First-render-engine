@@ -1,6 +1,7 @@
 #pragma once
 
 #include <thread>
+#include <glad/glad.h>
 
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>

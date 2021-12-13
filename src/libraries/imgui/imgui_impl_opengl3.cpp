@@ -85,7 +85,7 @@
 //  Helper libraries are often used for this purpose! Here we are supporting a few common ones (gl3w, glew, glad).
 //  You may use another loader/header of your choice (glext, glLoadGen, etc.), or chose to manually implement your own.
 # pragma
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 
 // OpenGL Data

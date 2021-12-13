@@ -1,4 +1,5 @@
 #pragma once
+#include <glad/glad.h>
 #include "Light.h"
 #include "OmniShadowMap.h"
 #include <vector>
