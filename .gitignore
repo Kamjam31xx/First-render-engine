@@ -69,3 +69,19 @@ src/OpenGlCourseApp/x64/Debug/vc141.pdb
 /src/OpenGlCourseApp/misc/LocMetricsPie.jpg
 /src/OpenGlCourseApp/LocMetricsPie.png
 /src/OpenGlCourseApp/LocMetricsPie.jpg
+src/OpenGlCourseApp/Debug/RenderEngine.tlog/unsuccessfulbuild
+src/OpenGlCourseApp/Debug/RenderEngine.tlog/CL.write.1.tlog
+src/OpenGlCourseApp/Debug/RenderEngine.tlog/CL.write.1.tlog
+*.log
+.vs/CMake Overview
+.vs/First-render-engine/v16/.suo
+.vs/First-render-engine/v16/Browse.VC.db
+.vs/First-render-engine/v16/ipch/AutoPCH/3567eaa07a15bfef/GL_WINDOW.ipch
+.vs/First-render-engine/v16/ipch/AutoPCH/39efeeda9ec09db8/TEXTURE.ipch
+.vs/First-render-engine/v16/ipch/AutoPCH/719e1a4f6498fc34/MAIN.ipch
+.vs/ProjectSettings.json
+.vs/slnx.sqlite
+.vs/VSWorkspaceState.json
+src/.vs/RenderEngine/v16/.suo
+src/.vs/RenderEngine/v16/Browse.VC.db
+src/.vs/RenderEngine/v16/ipch/AutoPCH/e067654730f96fe8/MAIN.ipch

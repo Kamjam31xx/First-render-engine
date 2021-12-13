@@ -1,7 +1,7 @@
 #pragma
 
 //										 openGL libraries
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 //										STB image loader
 #define STB_IMAGE_IMPLEMENTATION
@@ -880,7 +880,7 @@ int main()
 	//FragColor = ( (vec4(col, 1.0f) * texture(theTextureDiffuse, TexCoords) ) - (1.0f - brightness)) + texture(theTextureDiffuse,TexCoords);
 
 
-
+	11
 
 
 

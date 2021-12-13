@@ -1,0 +1,4 @@
+C:/Users/kamja/Documents/GitHub/First-render-engine/src/libraries/glm/include/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/kamja/Documents/GitHub/First-render-engine/src/libraries/glm/include/out/build/x64-Debug/CMakeFiles/glm_static.dir
+C:/Users/kamja/Documents/GitHub/First-render-engine/src/libraries/glm/include/out/build/x64-Debug/CMakeFiles/glm_shared.dir
+C:/Users/kamja/Documents/GitHub/First-render-engine/src/libraries/glm/include/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir

@@ -3,7 +3,6 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <GL/glew.h>
 
 class ShaderHandler									// rename ShaderSource
 {													// possibly make a member of Shader class
