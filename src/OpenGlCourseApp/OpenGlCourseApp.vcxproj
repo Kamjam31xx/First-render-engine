@@ -97,7 +97,7 @@
       <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)libraries\imgui;$(SolutionDir)libraries\GLFW\include;$(SolutionDir)libraries\GLAD\src;$(SolutionDir)libraries\GLAD\include;$(SolutionDir)libraries\glm\include;$(SolutionDir)libraries\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libraries\imgui;$(SolutionDir)libraries\GLFW\include;$(SolutionDir)libraries\GLAD\src;$(SolutionDir)libraries\GLAD\include;$(SolutionDir)libraries\glm\include;$(SolutionDir)libraries\nlohmann;$(SolutionDir)libraries\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>
       </LanguageStandard>
       <EnableModules>true</EnableModules>
@@ -119,7 +119,7 @@
       <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)libraries\imgui;$(SolutionDir)libraries\GLAD\include\glad;$(SolutionDir)libraries\GLAD\include;$(SolutionDir)libraries\GLFW\include;$(SolutionDir)libraries\glm\include;$(SolutionDir)libraries\GLAD\src;$(SolutionDir)libraries\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libraries\nlohmann;$(SolutionDir)libraries\imgui;$(SolutionDir)libraries\GLAD\include\glad;$(SolutionDir)libraries\GLAD\include;$(SolutionDir)libraries\GLFW\include;$(SolutionDir)libraries\glm\include;$(SolutionDir)libraries\GLAD\src;$(SolutionDir)libraries\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>
       </LanguageStandard>
       <EnableModules>true</EnableModules>
@@ -143,7 +143,7 @@
       <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)libraries\imgui;$(SolutionDir)libraries\GLFW\include;$(SolutionDir)libraries\GLAD\src;$(SolutionDir)libraries\GLAD\include;$(SolutionDir)libraries\glm\include;$(SolutionDir)libraries\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libraries\imgui;$(SolutionDir)libraries\GLFW\include;$(SolutionDir)libraries\GLAD\src;$(SolutionDir)libraries\GLAD\include;$(SolutionDir)libraries\glm\include;$(SolutionDir)libraries\nlohmann;$(SolutionDir)libraries\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>
       </LanguageStandard>
       <EnableModules>true</EnableModules>
@@ -169,7 +169,7 @@
       <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)libraries\imgui;$(SolutionDir)libraries\GLAD\include\glad;$(SolutionDir)libraries\GLAD\include;$(SolutionDir)libraries\GLFW\include;$(SolutionDir)libraries\glm\include;$(SolutionDir)libraries\GLAD\src;$(SolutionDir)libraries\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libraries\nlohmann;$(SolutionDir)libraries\imgui;$(SolutionDir)libraries\GLAD\include\glad;$(SolutionDir)libraries\GLAD\include;$(SolutionDir)libraries\GLFW\include;$(SolutionDir)libraries\glm\include;$(SolutionDir)libraries\GLAD\src;$(SolutionDir)libraries\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>
       </LanguageStandard>
       <EnableModules>true</EnableModules>
@@ -192,8 +192,13 @@
     <ClCompile Include="..\libraries\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Chunk2D.cpp" />
+    <ClCompile Include="ChunkHandler2D.cpp" />
+    <ClCompile Include="Clock.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="GBuffer.cpp" />
+    <ClCompile Include="Ground_Tile.cpp" />
+    <ClCompile Include="Ground_Tile_Handler.cpp" />
     <ClCompile Include="MultiFrameBuffer.cpp" />
     <ClCompile Include="FrameBuffer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -221,6 +226,7 @@
     </ClCompile>
     <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="SkyBox.cpp" />
+    <ClCompile Include="ChunkHandlerParameters.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
@@ -234,9 +240,15 @@
     <ClInclude Include="..\libraries\imgui\imstb_textedit.h" />
     <ClInclude Include="..\libraries\imgui\imstb_truetype.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Chunk2D.h" />
+    <ClInclude Include="ChunkHandler2D.h" />
+    <ClInclude Include="Clock.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="CommonValues.h" />
     <ClInclude Include="GBuffer.h" />
+    <ClInclude Include="Ground_Tile.h" />
+    <ClInclude Include="Ground_Tile_Handler.h" />
+    <ClInclude Include="ChunkHandlerParameters.h" />
     <ClInclude Include="KML.h" />
     <ClInclude Include="MultiFrameBuffer.h" />
     <ClInclude Include="FrameBuffer.h">
@@ -252,6 +264,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="OmniShadowMap.h" />
     <ClInclude Include="PointLight.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ScreenQuad.h" />
     <ClInclude Include="Shader.h" />
@@ -319,6 +332,9 @@
   <ItemGroup>
     <Text Include="..\libraries\imgui\LICENSE.txt" />
     <Text Include="..\libraries\imgui\README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="RenderEngine.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

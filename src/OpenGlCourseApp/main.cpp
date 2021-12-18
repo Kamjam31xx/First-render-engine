@@ -26,6 +26,9 @@
 #include <imgui_impl_opengl3.h>
 //
 #include "CommonValues.h"
+#include "Clock.h"
+#include "ChunkHandlerParameters.h"
+#include "ChunkHandler2D.h"
 //#include "KML.h"
 //										 project 
 #include "Mesh.h"
@@ -118,9 +121,7 @@ GLfloat height = 1.0f;
 GLfloat radiusAO = 0.25f;
 GLfloat biasAO = 0.025f;
 
-GLfloat deltaTime = 0.0f;
-GLfloat lastTime = 0.0f;	
-GLfloat now = 0.0f;
+Clock clock = Clock();
 GLfloat spin;
 
 PointLight pointLights[MAX_POINT_LIGHTS];
@@ -144,8 +145,7 @@ Texture noiseTexture;
 FrameBuffer ssaoBuffer;
 // TEMP SSAO
 
-
-
+ChunkHandler2D Chunk_handler = ChunkHandler2D(chunk_handler_parameters_default);
 
 
 void errorCheckGL(std::string location)
@@ -759,7 +759,7 @@ int main()
 	while (!mainWindow.getShouldClose()) 
 	{
 		// Other scene variables
-		deltaTime = DeltaTime();
+		clock.deltaTime();
 
 			// junk JUNK
 			glm::vec3 ALP = camera.getCameraPosition();
@@ -773,7 +773,7 @@ int main()
 		// Main GL Calls
 		glfwPollEvents();		
 		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
-		camera.keyControl(mainWindow.getKeys(), deltaTime);
+		camera.keyControl(mainWindow.getKeys(), clock.getDeltaTime());
 
 
 
