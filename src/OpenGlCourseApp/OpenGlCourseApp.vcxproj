@@ -192,13 +192,12 @@
     <ClCompile Include="..\libraries\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Chunk2D.cpp" />
     <ClCompile Include="ChunkHandler2D.cpp" />
     <ClCompile Include="Clock.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="GBuffer.cpp" />
-    <ClCompile Include="Ground_Tile.cpp" />
-    <ClCompile Include="Ground_Tile_Handler.cpp" />
+    <ClCompile Include="GroundTile.cpp" />
+    <ClCompile Include="GroundTileHandler.cpp" />
     <ClCompile Include="MultiFrameBuffer.cpp" />
     <ClCompile Include="FrameBuffer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -226,7 +225,7 @@
     </ClCompile>
     <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="SkyBox.cpp" />
-    <ClCompile Include="ChunkHandlerParameters.cpp" />
+    <ClCompile Include="EngineTypes.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
@@ -240,15 +239,14 @@
     <ClInclude Include="..\libraries\imgui\imstb_textedit.h" />
     <ClInclude Include="..\libraries\imgui\imstb_truetype.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Chunk2D.h" />
     <ClInclude Include="ChunkHandler2D.h" />
     <ClInclude Include="Clock.h" />
     <ClInclude Include="DirectionalLight.h" />
-    <ClInclude Include="CommonValues.h" />
+    <ClInclude Include="Common.h" />
     <ClInclude Include="GBuffer.h" />
-    <ClInclude Include="Ground_Tile.h" />
-    <ClInclude Include="Ground_Tile_Handler.h" />
-    <ClInclude Include="ChunkHandlerParameters.h" />
+    <ClInclude Include="GroundTile.h" />
+    <ClInclude Include="GroundTileHandler.h" />
+    <ClInclude Include="EngineTypes.h" />
     <ClInclude Include="KML.h" />
     <ClInclude Include="MultiFrameBuffer.h" />
     <ClInclude Include="FrameBuffer.h">

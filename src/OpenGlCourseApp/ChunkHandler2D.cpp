@@ -3,17 +3,20 @@
 
 ChunkHandler2D::ChunkHandler2D()
 {
-	struct ChunkHandlerParameters parameters = chunk_handler_parameters_default;
-	setParameters(parameters);
+	parameters = etl::chunk_handler_parameters_default;
 	pos = glm::vec3(0.0, 0.0, 0.0);
 	allow_update = false;
 	origin_has_changed = false;
+	chunk_data_not_null = false;
 }
 
-ChunkHandler2D::ChunkHandler2D(struct ChunkHandlerParameters _parameters)
+ChunkHandler2D::ChunkHandler2D(struct etl::ChunkHandlerParameters _parameters)
 {
-	setParameters(_parameters);
+	parameters = _parameters
 	pos = glm::vec3(0.0, 0.0, 0.0);
+	allow_update = false;
+	origin_has_changed = false;
+	chunk_data_not_null = false;
 }
 
 void ChunkHandler2D::setMapPath(std::string _file_path)
@@ -36,21 +39,41 @@ void ChunkHandler2D::setStartChunk(std::string _chunk_id)
 {
 
 }
-GLboolean ChunkHandler2D::init()
+
+bool ChunkHandler2D::init()
 {
 	try {
 		std::ifstream file;
-		file.open(chunk_map_loc);
-		file >> chunk_data;
+		if (!chunk_map_loc.empty()) {
+			file.open(chunk_map_loc);
+			if (file.is_open()) {
+				file >> chunk_data;
+				chunk_data_not_null = true;
+			}
+			else {
+				throw std::exception("Exception : unable to open file");
+			}
+		}
+		else {
+			throw std::exception("Exception : no file path");
+		}
+		if (chunk_data_not_null) {
+			if (start_chunk_id == NULL) {
+				start_chunk_id = getDefaultStartChunk();
+			}
+			origin_chunk = openChunk(start_chunk_id);
 
-		if()
 
+			for (etl::Chunk2D chunk : origin_chunk_neighbors) {
+
+			}
+		}
 	}
-	catch (std::exception e) {
-		printf("Exeption : ChunkHandler2D initialization failed ");
-		return GLboolean(false);
+	catch (std::exception& e) {
+		printf(e.what());
+		return false;
 	}
-	return GLboolean(true);
+	return true;
 }
 
 void ChunkHandler2D::update()
@@ -71,11 +94,16 @@ void ChunkHandler2D::clear()
 
 }
 
-void ChunkHandler2D::openChunk()
+bool ChunkHandler2D::posIsInOriginChunk()
 {
 
 }
-void ChunkHandler2D::closeChunk()
+
+etl::Chunk2D ChunkHandler2D::openChunk(unsigned int _chunk_id)
+{
+
+}
+void ChunkHandler2D::closeChunk(unsigned int _chunk_id)
 {
 
 }
@@ -95,13 +123,20 @@ void ChunkHandler2D::updateAdjacent()
 
 }
 
-void ChunkHandler2D::setParameters(struct ChunkHandlerParameters _parameters)
+void ChunkHandler2D::updateOriginNeighbors()
 {
-	chunk_scale = _parameters.chunk_scale;
-	cull_bias = _parameters.cull_bias;
-	lod_0_bias = _parameters.lod_0_bias;
-	lod_1_bias = _parameters.lod_1_bias;
-	lod_2_bias = _parameters.lod_2_bias;
-	lod_3_bias = _parameters.lod_3_bias;
-	bias_scale = _parameters.bias_scale;
-}				 
+	for (std::tuple<unsigned int, int, int> neighbor : origin_chunk.neighbors) {
+		origin_chunk_neighbors.push_back(openChunk(std::get<CHUNK2D_NEIGHBOR_ID>(neighbor)));
+	}
+}
+			 
+unsigned int ChunkHandler2D::getDefaultStartChunk()
+{
+
+}
+bool ChunkHandler2D::checkChunks(std::vector<etl::Chunk2D> _chunks)
+{
+	for (etl::Chunk2D chunk : _chunks) {
+
+	}
+}

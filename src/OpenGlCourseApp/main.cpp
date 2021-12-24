@@ -25,9 +25,9 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 //
-#include "CommonValues.h"
+#include "Common.h"
+#include "EngineTypes.h"
 #include "Clock.h"
-#include "ChunkHandlerParameters.h"
 #include "ChunkHandler2D.h"
 //#include "KML.h"
 //										 project 
@@ -176,14 +176,6 @@ void errorCheckGL(std::string location)
 
 		std::cout << location << " : ERROR : " << errorType << std::endl;
 	}
-}
-GLfloat DeltaTime() 
-{
-	now = glfwGetTime();
-	deltaTime = now - lastTime;
-	lastTime = now;
-
-	return deltaTime;
 }
 void CreateShaders() 
 {

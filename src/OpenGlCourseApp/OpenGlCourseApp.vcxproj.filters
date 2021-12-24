@@ -126,22 +126,19 @@
     <ClCompile Include="..\libraries\GLAD\src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Ground_Tile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Ground_Tile_Handler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ChunkHandlerParameters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Clock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Chunk2D.cpp">
+    <ClCompile Include="ChunkHandler2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ChunkHandler2D.cpp">
+    <ClCompile Include="GroundTile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundTileHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineTypes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -171,9 +168,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PointLight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommonValues.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SpotLight.h">
@@ -239,25 +233,25 @@
     <ClInclude Include="ScreenQuad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Ground_Tile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Ground_Tile_Handler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ChunkHandlerParameters.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Clock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Chunk2D.h">
+    <ClInclude Include="ChunkHandler2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ChunkHandler2D.h">
+    <ClInclude Include="GroundTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundTileHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -8,8 +8,8 @@
 #include <string>
 #include <vector>
 
-#include "ChunkHandlerParameters.h"
-#include "Chunk2D.h"
+#include "Common.h"
+#include "EngineTypes.h"
 #include "Camera.h"
 
 
@@ -17,7 +17,7 @@ class ChunkHandler2D
 {
 public:
 	ChunkHandler2D();
-	ChunkHandler2D(struct ChunkHandlerParameters _parameters);
+	ChunkHandler2D(struct etl::ChunkHandlerParameters _parameters);
 
 	void setMapPath(std::string _file_path);
 	std::string getMapPath();
@@ -26,9 +26,8 @@ public:
 	glm::vec3 getPos();
 
 	void setStartChunk(std::string _chunk_id);
-	std::string getDefaultChunk();
 
-	GLboolean init();
+	bool init();
 
 	void update();
 	void load();
@@ -39,37 +38,34 @@ public:
 private:
 	glm::vec3 pos;
 
-	GLint chunk_scale;
-	GLint cull_bias;
-	GLint lod_0_bias;
-	GLint lod_1_bias;
-	GLint lod_2_bias;
-	GLint lod_3_bias;
-	GLint bias_scale;
+	struct etl::ChunkHandlerParameters parameters;
 
-	GLboolean allow_update; 
-	GLboolean origin_has_changed;
+	bool allow_update; 
+	bool origin_has_changed;
+	bool chunk_data_not_null;
 
 	std::string chunk_map_loc;
 	nlohmann::json chunk_data;
-	std::string start_chunk;
+	unsigned int start_chunk_id;
 
-	Chunk2D origin_chunk;
-	std::vector<Chunk2D> origin_chunk_neighrbors;
-	std::vector<Chunk2D> open_chunks;
-	std::vector<Chunk2D> boarder_chunks;
-	std::vector<Chunk2D> adjacent_chunks;
+	etl::Chunk2D origin_chunk;
+	std::vector<etl::Chunk2D> origin_chunk_neighbors;
+	std::vector<etl::Chunk2D> intermediate_chunks;
+	std::vector<etl::Chunk2D> boarder_chunks;
+	std::vector<etl::Chunk2D> adjacent_chunks;
 	
+	bool posIsInOriginChunk();
 
-	void openChunk();
-	void closeChunk();
+	etl::Chunk2D openChunk(unsigned int _chunk_id);
+	void closeChunk(unsigned int _chunk_id);
 
 	void updateOpen();
 	void updateBoarder();
 	void updateAdjacent();
 	void updateOriginNeighbors();
 
-	void setParameters(struct ChunkHandlerParameters _parameters);
+	unsigned int getDefaultStartChunk();
+	bool checkChunks(std::vector<etl::Chunk2D> _chunks);
 
 };
 
