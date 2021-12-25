@@ -7,6 +7,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <math.h>
 
 #include "Common.h"
 #include "EngineTypes.h"
@@ -40,24 +41,37 @@ private:
 
 	struct etl::ChunkHandlerParameters parameters;
 
+	bool initialized;
 	bool allow_update; 
 	bool origin_has_changed;
 	bool chunk_data_not_null;
 
 	std::string chunk_map_loc;
 	nlohmann::json chunk_data;
-	unsigned int start_chunk_id;
+	ChunkID start_chunk_id;
 
-	etl::Chunk2D origin_chunk;
-	std::vector<etl::Chunk2D> origin_chunk_neighbors;
-	std::vector<etl::Chunk2D> intermediate_chunks;
-	std::vector<etl::Chunk2D> boarder_chunks;
-	std::vector<etl::Chunk2D> adjacent_chunks;
+	std::tuple<ChunkID , ChunkIndex> origin_chunk;
+	std::vector<std::tuple<ChunkID, ChunkIndex>> origin_chunk_neighbors;
+	std::vector<std::tuple<ChunkID, ChunkIndex>> border_chunks;
+
+	std::vector<etl::Chunk2D> open_chunks;
+	std::vector<ChunkIndex> unclassified_chunks;
+
+	void addChunk(etl::Chunk2D _chunk);
+	void removeChunk(ChunkID _id);
+	etl::Chunk2D fetchChunk(ChunkID _id);
+	int indexOfChunk(ChunkID _id);
+	void classifyChunks();
+	void classifyChunk(etl::Chunk2D& _chunk_ref);
+
+	bool testChunkDistance();
 	
 	bool posIsInOriginChunk();
+	bool isVisible();
+	void openAllChunksFromOrigin();
 
-	etl::Chunk2D openChunk(unsigned int _chunk_id);
-	void closeChunk(unsigned int _chunk_id);
+	etl::Chunk2D openChunk(ChunkID _id);
+	void closeChunk(ChunkID _id);
 
 	void updateOpen();
 	void updateBoarder();
@@ -75,5 +89,13 @@ private:
 	map.setStartChunk(chunk_id);
 	map.setPos(glm::vec3(0.0, 0.0, 0.0)); // center of the initial chunk
 
+
+
+
+
+
+		for (std::tuple<unsigned int, int, int> neighbor : origin_chunk.neighbors) {
+		origin_chunk_neighbors.push_back(openChunk(std::get<CHUNK2D_NEIGHBOR_ID>(neighbor)));
+	}
 */
 

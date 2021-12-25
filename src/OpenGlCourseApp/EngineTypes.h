@@ -1,5 +1,6 @@
 #pragma once
 #include "glad/glad.h"
+#include <glm.hpp>
 
 #include <vector>
 #include <tuple>
@@ -7,12 +8,30 @@
 
 #include "GroundTile.h"
 
+using ChunkID = unsigned int;
+using ChunkPos = glm::ivec2;
+using ChunkIndex = unsigned int;
+using Flag = bool;
+
 namespace etl {
 
 	struct Entity
 	{
 		std::vector<std::string> key;
 		std::vector<std::string> value;
+
+		/*
+			https://www.david-colson.com/2020/02/09/making-a-simple-ecs.html
+
+			https://www.youtube.com/watch?v=F_tuEyQ0Qjc
+
+			https://www.geeksforgeeks.org/sparse-set/
+
+			gross one
+			http://gameprogrammingpatterns.com/component.html
+
+			https://skypjack.github.io/2019-02-14-ecs-baf-part-1/
+		*/
 	};
 
 	struct Lod
@@ -36,10 +55,12 @@ namespace etl {
 	struct Chunk2D
 	{
 	public:
-		unsigned int id;
-		std::vector<std::tuple<unsigned int, int, int>> neighbors;
+		ChunkID id;
+		std::vector<std::tuple<ChunkID, ChunkPos>> neighbors;
+		Flag loaded;
 		std::vector<Entity*> entities;
 		GroundTile ground_tile;
+		ChunkPos relative_position;
 	};
 
 }
