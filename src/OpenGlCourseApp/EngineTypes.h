@@ -12,6 +12,7 @@ using ChunkID = unsigned int;
 using ChunkPos = glm::ivec2;
 using ChunkIndex = unsigned int;
 using Flag = bool;
+//template <typename... Args> using IdIndexPair = std::tuple<ChunkID , ChunkIndex>;
 
 namespace etl {
 
@@ -41,7 +42,7 @@ namespace etl {
 		unsigned int n1;
 		unsigned int n2;
 		unsigned int n3;
-	};
+	} lod_default;
 
 	struct ChunkHandlerParameters
 	{
@@ -52,16 +53,34 @@ namespace etl {
 		float bias_scale;
 	} chunk_handler_parameters_default;
 
+	struct ChunkID_ChunkPos
+	{
+		ChunkID id;
+		ChunkPos pos;
+	};
+	struct ChunkID_ChunkIndex
+	{
+		ChunkID id;
+		ChunkIndex index;
+	};
+
 	struct Chunk2D
 	{
 	public:
 		ChunkID id;
-		std::vector<std::tuple<ChunkID, ChunkPos>> neighbors;
+		std::vector<ChunkID_ChunkPos> neighbors;
 		Flag loaded;
 		std::vector<Entity*> entities;
 		GroundTile ground_tile;
 		ChunkPos relative_position;
 	};
+
+	struct ChunkPtr_ChunkPos
+	{
+		Chunk2D* ptr;
+		ChunkPos pos;
+	};
+
 
 }
 

@@ -4,21 +4,23 @@
 ChunkHandler2D::ChunkHandler2D()
 {
 	parameters = etl::chunk_handler_parameters_default;
-	pos = glm::vec3(0.0, 0.0, 0.0);
+	view_pos = glm::vec3(0.0, 0.0, 0.0);
 	initialized = false;
 	allow_update = false;
 	origin_has_changed = false;
 	chunk_data_not_null = false;
+	chunks = { 0,0,{},{},{},{} };
 }
 
 ChunkHandler2D::ChunkHandler2D(struct etl::ChunkHandlerParameters _parameters)
 {
 	parameters = _parameters;
-	pos = glm::vec3(0.0, 0.0, 0.0);
+	view_pos = glm::vec3(0.0, 0.0, 0.0);
 	initialized = false;
 	allow_update = false;
 	origin_has_changed = false;
 	chunk_data_not_null = false;
+	chunks = { 0,0,{},{},{},{} };
 }
 
 void ChunkHandler2D::setMapPath(std::string _file_path)
@@ -29,15 +31,27 @@ std::string ChunkHandler2D::getMapPath()
 {
 	return chunk_map_loc;
 }
-void ChunkHandler2D::setPos(glm::vec3 _pos)
+void ChunkHandler2D::updateViewPosition(glm::vec3* _pos)
 {
-
+	glm::vec2 view_pos = glm::vec2(_pos->x, _pos->y);
+	if (!isInOriginChunk(view_pos))
+	{
+		ChunkID id = findOrigin(&chunks.origin_neighbor);
+		id = id == -1 ? findOrigin(&chunks.open) : id;
+		if (id >= 0)
+		{
+			
+		} 
+		else if(parameters.cull_bias > distanceToOrigin(view_pos)){
+			// test all possible chunks outside of cull_bias until found
+		}
+		else {
+			// allow origin to stay until back on grid.
+			// or break the engine;
+		}
+	}
 }
-glm::vec3 ChunkHandler2D::getPos()
-{
-
-}
-void ChunkHandler2D::setStartChunk(ChunkID _chunk_id)
+void ChunkHandler2D::setOriginChunk(ChunkID _chunk_id)
 {
 
 }
@@ -62,52 +76,75 @@ bool ChunkHandler2D::init()
 				throw std::exception("Exception : no file path");
 			}
 			if (chunk_data_not_null) {
-				if (start_chunk_id == NULL) {
-					start_chunk_id = getDefaultStartChunk();
+				if (chunks.origin_id == NULL) {
+					chunks.origin_id = getDefaultStartChunk();
 				}
-				origin_chunk = std::tuple<ChunkID, ChunkIndex>(start_chunk_id, ChunkIndex(0));
-				open_chunks.push_back(openChunk(start_chunk_id));
 
 				openAllChunksFromOrigin();
-				//updateOriginNeighbors();
-
 			}
 		}
 		catch (std::exception& e) {
 			printf(e.what());
 			return false;
 		}
-		return true;
 	}
 	else {
 		return false;
 	}
 
+	return true;
 }
 
 void ChunkHandler2D::update()
 {
-	updateOpen();
-	updateBoarder();
-	updateAdjacent();
-	updateOriginNeighbors();
+	// check pos and update if needed
 }
 
 void ChunkHandler2D::load()
 {
-	
+	// load all entities and push them into data
+}
+
+bool ChunkHandler2D::isInOriginChunk(glm::vec2 _position)
+{
+	if (_position.x <= 0.5 && _position.x >= -0.5 && _position.y <= 0.5 && _position.y >= -0.5)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+int ChunkHandler2D::findOrigin(std::vector<etl::ChunkID_ChunkIndex>* _data)
+{
+	int id = -1;
+	for (etl::ChunkID_ChunkIndex chunk : *_data)
+	{
+		glm::vec2 distance = view_pos - (glm::vec2)chunks.open[chunk.id].relative_position;
+		id = isInOriginChunk(distance) ? chunk.id : -1;
+	}
+}
+int ChunkHandler2D::findOrigin(std::vector<etl::Chunk2D>* _data)
+{
+	int id = -1;
+	for (etl::Chunk2D chunk : *_data)
+	{
+		glm::vec2 distance = view_pos - (glm::vec2)chunk.relative_position;
+		id = isInOriginChunk(distance) ? chunk.id : -1;
+	}
 }
 
 void ChunkHandler2D::clear()
 {
-	// clear all chunks
+	// clear all chunks and unload entities from data
 }
 
 void ChunkHandler2D::addChunk(etl::Chunk2D _chunk)
 {
-	unsigned int index = open_chunks.size();
-	unclassified_chunks.push_back(index);
-	open_chunks.push_back(_chunk);
+	unsigned int index = chunks.open.size();
+	chunks.unclassified.push_back(index);
+	chunks.open.push_back(_chunk);
 }
 void ChunkHandler2D::removeChunk(ChunkID _id)
 {
@@ -115,9 +152,9 @@ void ChunkHandler2D::removeChunk(ChunkID _id)
 }
 int ChunkHandler2D::indexOfChunk(ChunkID _id)
 {
-	for (unsigned int i = 0; i < open_chunks.size(); i++)
+	for (unsigned int i = 0; i < chunks.open.size(); i++)
 	{
-		if (open_chunks[i].id == _id)
+		if (chunks.open[i].id == _id)
 		{
 			return i;
 		}
@@ -127,51 +164,88 @@ int ChunkHandler2D::indexOfChunk(ChunkID _id)
 }
 void ChunkHandler2D::classifyChunks()
 {
-	for (ChunkIndex index : unclassified_chunks)
+	for (ChunkIndex index : chunks.unclassified)
 	{
 
 	}
 }
+
 void ChunkHandler2D::classifyChunk(etl::Chunk2D& _chunk_ref)
 {
 
 }
-bool ChunkHandler2D::testChunkDistance()
+float ChunkHandler2D::distanceToOrigin(ChunkPos _position)
 {
-
+	return abs(sqrt((_position.x * _position.x) + (_position.y * _position.y)));
+}
+float ChunkHandler2D::distanceToOrigin(glm::vec2 _position)
+{
+	return abs(sqrt((_position.x * _position.x) + (_position.y * _position.y)));
+}
+bool ChunkHandler2D::withinCullDistance(ChunkPos _position)
+{
+	if (distanceToOrigin(_position) * parameters.chunk_scale >= parameters.cull_bias)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
-bool ChunkHandler2D::posIsInOriginChunk()
+void ChunkHandler2D::setOriginChunkNeighbors()
 {
-
+	etl::Chunk2D* origin = &chunks.open[chunks.origin_index];
+	chunks.origin_neighbor.clear();
+	for (etl::ChunkID_ChunkPos neighbor : origin->neighbors)
+	{
+		unsigned int neighbor_index = indexOfChunk(neighbor.id);
+		if (neighbor_index >= 0)
+		{
+			chunks.origin_neighbor.push_back(etl::ChunkID_ChunkIndex{ neighbor.id, ChunkIndex(neighbor_index) });
+		}
+		else
+		{
+			// neighbor index not found - shouldnt happen
+		}
+		
+	}
 }
 void ChunkHandler2D::openAllChunksFromOrigin()
 {
+	// origin chunk must be set
+	// clear all vectors and push origin chunk into the open vector
+	chunks.origin_neighbor.clear();
+	chunks.border.clear();
+	chunks.open.clear();
+	chunks.origin_index = 0;
+	chunks.open.push_back(fetchChunk(chunks.origin_id));
+
 	// push origin data into arrays
 	std::vector<ChunkID> opened_ids;
-	std::vector <std::tuple<etl::Chunk2D* , ChunkPos>> expanding;
-	expanding.push_back( std::tuple<etl::Chunk2D*, ChunkPos>( &open_chunks[std::get<1>(origin_chunk)] , ChunkPos(0,0)) );
+	const unsigned int CHUNK_POINTER = 0;
+	const unsigned int CHUNK_POSITION = 1;
+
+	std::vector <etl::ChunkPtr_ChunkPos> expanding;
+	expanding.push_back(etl::ChunkPtr_ChunkPos{ &chunks.open[chunks.origin_id] , ChunkPos(0,0)});
 	
 	// for each opened chunk -> expand it via its neighbors
 	while (expanding.empty() == false)
 	{
 		// for each neighbor -> open it if not already opened & its distance is below the culling distance
-		std::tuple<etl::Chunk2D*, ChunkPos> current = expanding.back();
+		etl::ChunkPtr_ChunkPos current = expanding.back();
 		expanding.pop_back();
 
-		unsigned int count = 0;
-		ChunkID expanding_id = open_chunks.size();
+		unsigned int opened_neighbors = 0;
+		ChunkID expanding_id = chunks.open.size();
 		bool origin_neighbor = false;
-		for (std::tuple<ChunkID, ChunkPos> neighbor : std::get<0>(current)->neighbors)
+		for (etl::ChunkID_ChunkPos neighbor : current.ptr->neighbors)
 		{
-			ChunkID id = std::get<0>(neighbor);
+			ChunkID id = neighbor.id;
 
 			// check if current has origin as a neighbor
-			if (id == std::get<0>(origin_chunk))
-			{
-				// current has the origin chunk as a neighbor
-				origin_neighbor = true;
-			}
+			origin_neighbor = id == chunks.origin_id ? true : false;
 			
 			// check if chunk is already opened
 			bool is_opened = false;
@@ -188,59 +262,55 @@ void ChunkHandler2D::openAllChunksFromOrigin()
 			}
 
 			// check if chunk is within view
-			ChunkPos pos = std::get<1>(current) + std::get<1>(neighbor);
-			float distance = abs(sqrt((pos.x * pos.x) + (pos.y * pos.y)));
-			if (distance * parameters.chunk_scale >= parameters.cull_bias)
+			ChunkPos neighbor_pos = current.pos + neighbor.pos;
+			if (!withinCullDistance(neighbor_pos))
 			{
 				continue;
 			}
 
+
 			// chunk is not opened & chunk is within view
-			count++;
-			unsigned int index = open_chunks.size();
-			open_chunks.push_back(fetchChunk(id));
-			expanding.push_back(std::tuple<etl::Chunk2D*, ChunkPos>(&open_chunks[index], pos));
+			opened_neighbors++;
+			unsigned int index = chunks.open.size();
+			chunks.open.push_back(fetchChunk(id));
+			expanding.push_back(etl::ChunkPtr_ChunkPos{ &chunks.open[index], neighbor_pos });
 		}
-		opened_ids.push_back( (*std::get<0>(current)).id );
-		if (count < std::get<0>(current)->neighbors.size())
+		opened_ids.push_back( current.ptr->id );
+
+		unsigned int neighbor_count = current.ptr->neighbors.size();
+		int current_index = indexOfChunk(current.ptr->id);
+		if (opened_neighbors < neighbor_count || neighbor_count < CHUNK2D_MAX_NEIGHBOR_COUNT)
 		{
 			// border chunks have less than 8 open neighbors
 			// a chunk has to be able to expand to be a border chunk
 			// so a neighbors.size() must be greater than count
-			int current_index = indexOfChunk(std::get<0>(current)->id);
 			if (current_index != -1)
 			{
-				border_chunks.push_back(std::tuple<ChunkID, ChunkIndex>(std::get<0>(current)->id, ChunkIndex(current_index));
-			}
-			else
-			{
-				// there shouldnt be an else
+				chunks.border.push_back(etl::ChunkID_ChunkIndex{ current.ptr->id, ChunkIndex(current_index) });
 			}
 		}
-		if (origin_neighbor == true)
+		
+		if (origin_neighbor == true && current_index != -1)
 		{
-			int current_index = indexOfChunk(std::get<0>(current)->id);
-			if (current_index != -1)
-			{
-				origin_chunk_neighbors.push_back(std::tuple<ChunkID, ChunkIndex>(std::get<0>(current)->id, ChunkIndex(current_index));
-			}
+			chunks.origin_neighbor.push_back(etl::ChunkID_ChunkIndex{ current.ptr->id, ChunkIndex(current_index) });
 		}
 	}
 }
 
-etl::Chunk2D ChunkHandler2D::openChunk(ChunkID _id)
+void ChunkHandler2D::loadChunk(ChunkID _id)
 {
 
 }
-void ChunkHandler2D::closeChunk(ChunkID _chunk_id)
+void ChunkHandler2D::unloadChunk(ChunkID _chunk_id)
 {
 
 }
 etl::Chunk2D ChunkHandler2D::fetchChunk(ChunkID _id)
 {
-
+	// get chunk from chunk_data
 }
 
+/*
 void ChunkHandler2D::updateOpen()
 {
 
@@ -260,14 +330,9 @@ void ChunkHandler2D::updateOriginNeighbors()
 {
 
 }
+*/
 			 
 unsigned int ChunkHandler2D::getDefaultStartChunk()
 {
 
-}
-bool ChunkHandler2D::checkChunks(std::vector<etl::Chunk2D> _chunks)
-{
-	for (etl::Chunk2D chunk : _chunks) {
-
-	}
 }

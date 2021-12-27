@@ -23,10 +23,9 @@ public:
 	void setMapPath(std::string _file_path);
 	std::string getMapPath();
 
-	void setPos(glm::vec3 _pos);
-	glm::vec3 getPos();
+	void updateViewPosition(glm::vec3* _pos);
 
-	void setStartChunk(std::string _chunk_id);
+	void setOriginChunk(ChunkID _chunk_id);
 
 	bool init();
 
@@ -37,7 +36,7 @@ public:
 
 
 private:
-	glm::vec3 pos;
+	glm::vec2 view_pos;
 
 	struct etl::ChunkHandlerParameters parameters;
 
@@ -48,14 +47,22 @@ private:
 
 	std::string chunk_map_loc;
 	nlohmann::json chunk_data;
-	ChunkID start_chunk_id;
 
-	std::tuple<ChunkID , ChunkIndex> origin_chunk;
-	std::vector<std::tuple<ChunkID, ChunkIndex>> origin_chunk_neighbors;
-	std::vector<std::tuple<ChunkID, ChunkIndex>> border_chunks;
+	struct chunk_data
+	{
+		ChunkID origin_id;
+		ChunkIndex origin_index;
+		std::vector<etl::ChunkID_ChunkIndex> origin_neighbor;
+		std::vector<etl::ChunkID_ChunkIndex> border;
 
-	std::vector<etl::Chunk2D> open_chunks;
-	std::vector<ChunkIndex> unclassified_chunks;
+		std::vector<etl::Chunk2D> open;
+		std::vector<ChunkIndex> unclassified;
+	} chunks;
+
+
+	bool isInOriginChunk(glm::vec2 _position);
+	int findOrigin(std::vector<etl::ChunkID_ChunkIndex>* _data);
+	int findOrigin(std::vector<etl::Chunk2D>* _data);
 
 	void addChunk(etl::Chunk2D _chunk);
 	void removeChunk(ChunkID _id);
@@ -64,38 +71,16 @@ private:
 	void classifyChunks();
 	void classifyChunk(etl::Chunk2D& _chunk_ref);
 
-	bool testChunkDistance();
-	
-	bool posIsInOriginChunk();
-	bool isVisible();
+	float distanceToOrigin(ChunkPos _position);
+	float distanceToOrigin(glm::vec2 _position);
+	bool withinCullDistance(ChunkPos _position);
+	void setOriginChunkNeighbors();
 	void openAllChunksFromOrigin();
 
-	etl::Chunk2D openChunk(ChunkID _id);
-	void closeChunk(ChunkID _id);
-
-	void updateOpen();
-	void updateBoarder();
-	void updateAdjacent();
-	void updateOriginNeighbors();
+	void loadChunk(ChunkID _id);
+	void unloadChunk(ChunkID _id);
 
 	unsigned int getDefaultStartChunk();
-	bool checkChunks(std::vector<etl::Chunk2D> _chunks);
+
 
 };
-
-/* USE EXAMPLE :
-	ChunkHandler2D map = ChunkHandler2D(params);
-	map.setMapPath(file_path);
-	map.setStartChunk(chunk_id);
-	map.setPos(glm::vec3(0.0, 0.0, 0.0)); // center of the initial chunk
-
-
-
-
-
-
-		for (std::tuple<unsigned int, int, int> neighbor : origin_chunk.neighbors) {
-		origin_chunk_neighbors.push_back(openChunk(std::get<CHUNK2D_NEIGHBOR_ID>(neighbor)));
-	}
-*/
-
