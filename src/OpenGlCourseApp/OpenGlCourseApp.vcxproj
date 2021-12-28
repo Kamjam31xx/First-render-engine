@@ -247,6 +247,7 @@
     <ClInclude Include="GroundTile.h" />
     <ClInclude Include="GroundTileHandler.h" />
     <ClInclude Include="EngineTypes.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="KML.h" />
     <ClInclude Include="MultiFrameBuffer.h" />
     <ClInclude Include="FrameBuffer.h">

@@ -8,7 +8,7 @@ ChunkHandler2D::ChunkHandler2D()
 	initialized = false;
 	allow_update = false;
 	origin_has_changed = false;
-	chunk_data_not_null = false;
+	json_data_not_null = false;
 	chunks = { 0,0,{},{},{},{} };
 }
 
@@ -19,7 +19,7 @@ ChunkHandler2D::ChunkHandler2D(struct etl::ChunkHandlerParameters _parameters)
 	initialized = false;
 	allow_update = false;
 	origin_has_changed = false;
-	chunk_data_not_null = false;
+	json_data_not_null = false;
 	chunks = { 0,0,{},{},{},{} };
 }
 
@@ -60,30 +60,25 @@ bool ChunkHandler2D::init()
 {
 	if (initialized == false)
 	{
-		try {
-			std::ifstream file;
-			if (!chunk_map_loc.empty()) {
-				file.open(chunk_map_loc);
-				if (file.is_open()) {
-					file >> chunk_data;
-					chunk_data_not_null = true;
-				}
-				else {
-					throw std::exception("Exception : unable to open file");
-				}
-			}
-			else {
-				throw std::exception("Exception : no file path");
-			}
-			if (chunk_data_not_null) {
-				if (chunks.origin_id == NULL) {
-					chunks.origin_id = getDefaultStartChunk();
+		try 
+		{
+			initJSON();
+			if (json_data_not_null) 
+			{
+				if (chunks.origin_id == NULL) 
+				{
+					chunks.origin_id = getDefaultStartChunkID();
 				}
 
 				openAllChunksFromOrigin();
 			}
+
+
+
+			initialized == true;
 		}
-		catch (std::exception& e) {
+		catch (std::exception& e) 
+		{
 			printf(e.what());
 			return false;
 		}
@@ -134,18 +129,34 @@ int ChunkHandler2D::findOrigin(std::vector<etl::Chunk2D>* _data)
 		id = isInOriginChunk(distance) ? chunk.id : -1;
 	}
 }
+void ChunkHandler2D::putInBorder(ChunkID _id, ChunkIndex _index)
+{
+	chunks.border.push_back(
+		etl::ChunkID_ChunkIndex{ _id, _index }
+	);
+}
+void ChunkHandler2D::putInOriginNeighbor(ChunkID _id, ChunkIndex _index)
+{
+	chunks.origin_neighbor.push_back(
+		etl::ChunkID_ChunkIndex{ _id, _index }
+	);
+}
+void ChunkHandler2D::putInOpen(etl::Chunk2D _chunk)
+{
+	chunks.open.push_back(_chunk);
+}
 
 void ChunkHandler2D::clear()
 {
 	// clear all chunks and unload entities from data
 }
 
-void ChunkHandler2D::addChunk(etl::Chunk2D _chunk)
+/*void ChunkHandler2D::addChunk(etl::Chunk2D _chunk)
 {
 	unsigned int index = chunks.open.size();
 	chunks.unclassified.push_back(index);
 	chunks.open.push_back(_chunk);
-}
+}*/
 void ChunkHandler2D::removeChunk(ChunkID _id)
 {
 
@@ -161,6 +172,17 @@ int ChunkHandler2D::indexOfChunk(ChunkID _id)
 	}
 
 	return -1;
+}
+bool ChunkHandler2D::isOpen(std::vector<ChunkID>* _opened_ids, ChunkID _id)
+{
+	for (ChunkID opened : *_opened_ids)
+	{
+		if (opened == _id)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 void ChunkHandler2D::classifyChunks()
 {
@@ -220,21 +242,18 @@ void ChunkHandler2D::openAllChunksFromOrigin()
 	chunks.border.clear();
 	chunks.open.clear();
 	chunks.origin_index = 0;
-	chunks.open.push_back(fetchChunk(chunks.origin_id));
+	chunks.open.push_back(getChunkFromFile(chunks.origin_id));
 
 	// push origin data into arrays
 	std::vector<ChunkID> opened_ids;
-	const unsigned int CHUNK_POINTER = 0;
-	const unsigned int CHUNK_POSITION = 1;
-
 	std::vector <etl::ChunkPtr_ChunkPos> expanding;
-	expanding.push_back(etl::ChunkPtr_ChunkPos{ &chunks.open[chunks.origin_id] , ChunkPos(0,0)});
+	expanding.push_back({ &chunks.open[chunks.origin_id] , ChunkPos(0,0)});
 	
 	// for each opened chunk -> expand it via its neighbors
 	while (expanding.empty() == false)
 	{
 		// for each neighbor -> open it if not already opened & its distance is below the culling distance
-		etl::ChunkPtr_ChunkPos current = expanding.back();
+		auto current = expanding.back();
 		expanding.pop_back();
 
 		unsigned int opened_neighbors = 0;
@@ -248,16 +267,8 @@ void ChunkHandler2D::openAllChunksFromOrigin()
 			origin_neighbor = id == chunks.origin_id ? true : false;
 			
 			// check if chunk is already opened
-			bool is_opened = false;
-			for (ChunkID opened : opened_ids)
+			if (isOpen(&opened_ids, id))
 			{
-				if (id == opened)
-				{
-					is_opened = true;
-					break;
-				}
-			}
-			if (is_opened) {
 				continue;
 			}
 
@@ -268,12 +279,11 @@ void ChunkHandler2D::openAllChunksFromOrigin()
 				continue;
 			}
 
-
 			// chunk is not opened & chunk is within view
 			opened_neighbors++;
 			unsigned int index = chunks.open.size();
-			chunks.open.push_back(fetchChunk(id));
-			expanding.push_back(etl::ChunkPtr_ChunkPos{ &chunks.open[index], neighbor_pos });
+			putInOpen(getChunkFromFile(id));
+			expanding.push_back({ &chunks.open[index], neighbor_pos });
 		}
 		opened_ids.push_back( current.ptr->id );
 
@@ -286,53 +296,75 @@ void ChunkHandler2D::openAllChunksFromOrigin()
 			// so a neighbors.size() must be greater than count
 			if (current_index != -1)
 			{
-				chunks.border.push_back(etl::ChunkID_ChunkIndex{ current.ptr->id, ChunkIndex(current_index) });
+				putInBorder(current.ptr->id, ChunkIndex(current_index));
 			}
 		}
 		
 		if (origin_neighbor == true && current_index != -1)
 		{
-			chunks.origin_neighbor.push_back(etl::ChunkID_ChunkIndex{ current.ptr->id, ChunkIndex(current_index) });
+			putInOriginNeighbor(current.ptr->id, ChunkIndex(current_index));
 		}
 	}
 }
+
+void ChunkHandler2D::initJSON()
+{
+	if (!chunk_map_loc.empty()) {
+		file.open(chunk_map_loc);
+		if (file.is_open()) {
+			file >> json_data;
+			json_data_not_null = true;
+		}
+		else {
+			throw std::exception("Exception : unable to open file");
+		}
+	}
+	else {
+		throw std::exception("Exception : no file path");
+	}
+}
+void ChunkHandler2D::readChunkFileHeader()
+{
+	try
+	{
+		auto json_object = json_data.at("header");
+		file_header = {
+			json_object["map_name"].get<std::string>(),
+			json_object["type"].get<std::string>(),
+			json_object["scale"].get<uint64_t>(),
+			json_object["default_chunk_id"].get<std::string>()
+		};
+	}
+	catch (std::exception& e)
+	{
+		printf(e.what());
+	}
+}
+ChunkID ChunkHandler2D::getDefaultStartChunkID()
+{
+	if (file_header.default_chunk_id == "")
+	{
+		return 0; // replace with getFirstChunkInFile();
+	}
+	else
+	{
+		return (ChunkID)std::stoi(file_header.default_chunk_id);
+	}
+}
+etl::Chunk2D ChunkHandler2D::getChunkFromFile(ChunkID _id)
+{
+	etl::Chunk2D temp; 
+	temp.id = _id;
+	// for neighbor in json_chunks.at("id_str").getIdSomeHow();
+	// write that but below and in real code.
+}
+
 
 void ChunkHandler2D::loadChunk(ChunkID _id)
 {
 
 }
 void ChunkHandler2D::unloadChunk(ChunkID _chunk_id)
-{
-
-}
-etl::Chunk2D ChunkHandler2D::fetchChunk(ChunkID _id)
-{
-	// get chunk from chunk_data
-}
-
-/*
-void ChunkHandler2D::updateOpen()
-{
-
-}
-
-void ChunkHandler2D::updateBoarder()
-{
-
-}
-
-void ChunkHandler2D::updateAdjacent()
-{
-
-}
-
-void ChunkHandler2D::updateOriginNeighbors()
-{
-
-}
-*/
-			 
-unsigned int ChunkHandler2D::getDefaultStartChunk()
 {
 
 }
