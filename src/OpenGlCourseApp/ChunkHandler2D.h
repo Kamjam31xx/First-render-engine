@@ -99,7 +99,7 @@ private:
 	void initJSON();
 	void readChunkFileHeader();
 	ChunkID getDefaultStartChunkID();
-	etl::Chunk2D getChunkFromFile(ChunkID _id);
+	etl::Chunk2D getChunkFromFile(ChunkID _id, ChunkPos _pos);
 	void removeChunk(ChunkID);
 	void loadChunkData();
 	void unloadChunkBody();

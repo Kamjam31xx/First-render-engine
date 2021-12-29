@@ -68,11 +68,15 @@ namespace etl {
 	{
 	public:
 		ChunkID id;
+		ChunkPos relative_position;
+		Flag origin_neighbor = false;
+		Flag border = false;
+
+		Flag loaded = false;
 		std::vector<ChunkID_ChunkPos> neighbors;
-		Flag loaded;
 		std::vector<Entity*> entities;
 		GroundTile ground_tile;
-		ChunkPos relative_position;
+		
 	};
 
 	struct ChunkPtr_ChunkPos

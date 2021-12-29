@@ -242,12 +242,12 @@ void ChunkHandler2D::openAllChunksFromOrigin()
 	chunks.border.clear();
 	chunks.open.clear();
 	chunks.origin_index = 0;
-	chunks.open.push_back(getChunkFromFile(chunks.origin_id));
+	chunks.open.push_back(getChunkFromFile(chunks.origin_id, ChunkPos(0,0)));
 
 	// push origin data into arrays
 	std::vector<ChunkID> opened_ids;
-	std::vector <etl::ChunkPtr_ChunkPos> expanding;
-	expanding.push_back({ &chunks.open[chunks.origin_id] , ChunkPos(0,0)});
+	std::vector <etl::Chunk2D*> expanding;
+	expanding.push_back({ &chunks.open[chunks.origin_id]});
 	
 	// for each opened chunk -> expand it via its neighbors
 	while (expanding.empty() == false)
@@ -259,7 +259,7 @@ void ChunkHandler2D::openAllChunksFromOrigin()
 		unsigned int opened_neighbors = 0;
 		ChunkID expanding_id = chunks.open.size();
 		bool origin_neighbor = false;
-		for (etl::ChunkID_ChunkPos neighbor : current.ptr->neighbors)
+		for (etl::ChunkID_ChunkPos neighbor : current->neighbors)
 		{
 			ChunkID id = neighbor.id;
 
@@ -273,7 +273,7 @@ void ChunkHandler2D::openAllChunksFromOrigin()
 			}
 
 			// check if chunk is within view
-			ChunkPos neighbor_pos = current.pos + neighbor.pos;
+			ChunkPos neighbor_pos = current->relative_position + neighbor.pos;
 			if (!withinCullDistance(neighbor_pos))
 			{
 				continue;
@@ -282,13 +282,13 @@ void ChunkHandler2D::openAllChunksFromOrigin()
 			// chunk is not opened & chunk is within view
 			opened_neighbors++;
 			unsigned int index = chunks.open.size();
-			putInOpen(getChunkFromFile(id));
-			expanding.push_back({ &chunks.open[index], neighbor_pos });
+			putInOpen(getChunkFromFile(id, neighbor_pos));
+			expanding.push_back(&chunks.open[index]);
 		}
-		opened_ids.push_back( current.ptr->id );
+		opened_ids.push_back( current->id );
 
-		unsigned int neighbor_count = current.ptr->neighbors.size();
-		int current_index = indexOfChunk(current.ptr->id);
+		unsigned int neighbor_count = current->neighbors.size();
+		int current_index = indexOfChunk(current->id);
 		if (opened_neighbors < neighbor_count || neighbor_count < CHUNK2D_MAX_NEIGHBOR_COUNT)
 		{
 			// border chunks have less than 8 open neighbors
@@ -296,13 +296,15 @@ void ChunkHandler2D::openAllChunksFromOrigin()
 			// so a neighbors.size() must be greater than count
 			if (current_index != -1)
 			{
-				putInBorder(current.ptr->id, ChunkIndex(current_index));
+				putInBorder(current->id, ChunkIndex(current_index));
+				chunks.open[current->id].border = true;
 			}
 		}
 		
 		if (origin_neighbor == true && current_index != -1)
 		{
-			putInOriginNeighbor(current.ptr->id, ChunkIndex(current_index));
+			putInOriginNeighbor(current->id, ChunkIndex(current_index));
+			chunks.open[current->id].origin_neighbor = true;
 		}
 	}
 }
@@ -334,6 +336,14 @@ void ChunkHandler2D::readChunkFileHeader()
 			json_object["scale"].get<uint64_t>(),
 			json_object["default_chunk_id"].get<std::string>()
 		};
+		auto json_object1 = json_data["header"]["map_name"].get<std::string>();
+		auto json_chunks = json_data.at("chunks");
+		auto chunk = json_chunks["cid_" + std::to_string(3425)];
+		if (std::stoi(chunk[3425].get<std::string>()) == 3425)
+		{
+			return;
+		}
+		
 	}
 	catch (std::exception& e)
 	{
@@ -351,12 +361,44 @@ ChunkID ChunkHandler2D::getDefaultStartChunkID()
 		return (ChunkID)std::stoi(file_header.default_chunk_id);
 	}
 }
-etl::Chunk2D ChunkHandler2D::getChunkFromFile(ChunkID _id)
+etl::Chunk2D ChunkHandler2D::getChunkFromFile(ChunkID _id, ChunkPos _pos)
 {
-	etl::Chunk2D temp; 
-	temp.id = _id;
-	// for neighbor in json_chunks.at("id_str").getIdSomeHow();
-	// write that but below and in real code.
+	etl::Chunk2D chunk;
+	chunk.id = _id;
+	chunk.relative_position = _pos;
+	chunk.origin_neighbor = false;
+	chunk.border = false;
+	chunk.loaded = false;
+
+	std::string chunk_id_str = "cid_" + std::to_string(_id);
+	auto json_chunk = json_data["chunks"][chunk_id_str];
+	
+	{
+		"id": "0001",
+			"type" : "donut",
+			"name" : "Cake",
+			"ppu" : 0.55,
+			"batters" :
+		{
+			"batter":
+			[
+			{ "id": "1001", "type" : "Regular" },
+			{ "id": "1002", "type" : "Chocolate" },
+			{ "id": "1003", "type" : "Blueberry" },
+			{ "id": "1004", "type" : "Devil's Food" }
+			]
+		},
+			"topping":
+		[
+		{ "id": "5001", "type" : "None" },
+		{ "id": "5002", "type" : "Glazed" },
+		{ "id": "5005", "type" : "Sugar" },
+		{ "id": "5007", "type" : "Powdered Sugar" },
+		{ "id": "5006", "type" : "Chocolate with Sprinkles" },
+		{ "id": "5003", "type" : "Chocolate" },
+		{ "id": "5004", "type" : "Maple" }
+		]
+	},
 }
 
 

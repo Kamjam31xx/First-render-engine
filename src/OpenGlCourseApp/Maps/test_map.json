@@ -1,0 +1,36 @@
+{
+  "header": 
+  {
+    "map_name": "test_map",
+    "type": "Chunk2D",
+    "scale": 1,
+    "default_chunk_id": 0
+  }
+
+  "chunks" 
+  {
+    "cid_0" 
+    {
+      "id": 0,
+      "neighbors": {
+
+      },
+      "entities": {
+
+      }
+      "ground_tile": {
+
+      }
+    }
+
+  }
+
+  "dependancies" 
+  {
+
+  }
+
+
+
+
+}

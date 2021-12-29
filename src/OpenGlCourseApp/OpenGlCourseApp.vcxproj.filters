@@ -37,6 +37,12 @@
     <Filter Include="imGUI">
       <UniqueIdentifier>{3410bb54-3e7c-4eaa-8f75-880e868df215}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Maps">
+      <UniqueIdentifier>{9731608f-5502-4ba5-a11f-f52d91dd7c2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scripts">
+      <UniqueIdentifier>{2e2fa017-63cf-4805-be2a-c465832ff948}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -345,6 +351,12 @@
     </None>
     <None Include="Shaders\ssaoDeferred.frag">
       <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Maps\test_map.json">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="Maps\default_map_generator.py">
+      <Filter>Source Files\Scripts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

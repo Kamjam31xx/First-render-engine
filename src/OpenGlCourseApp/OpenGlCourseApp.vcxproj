@@ -281,6 +281,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\libraries\imgui\.editorconfig" />
+    <None Include="Maps\default_map_generator.py" />
+    <None Include="Maps\test_map.json" />
     <None Include="Models\Backdrop\BASE.fbx" />
     <None Include="Models\default.FLS" />
     <None Include="Models\Ground\BASE.fbx" />
