@@ -5,7 +5,8 @@
     "type": "Chunk2D",
     "scale": 1,
     "default_chunk_id": 0,
-    "number_of_chunks": 2048
+    "number_of_chunks": 2048,
+    "sky" :  "sky_box_string"
   }
 
   "chunks" 
